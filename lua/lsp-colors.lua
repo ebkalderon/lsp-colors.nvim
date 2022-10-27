@@ -5,11 +5,11 @@ local defaults = { Error = "#db4b4b", Warning = "#e0af68", Information = "#0db9d
 local config = {}
 
 function M.translate(group)
-  if vim.fn.has("nvim-0.6.0") == 0 then
-    return group
-  end
+  -- if vim.fn.has("nvim-0.6.0") == 0 then
+  --   return group
+  -- end
 
-  if not string.match(group, "^LspDiagnostics") then
+  if not string.match(group, "^Diagnostic") then
     return group
   end
 
@@ -59,13 +59,13 @@ function M.fix(event)
   for _, lsp in pairs({ "Error", "Warning", "Information", "Hint" }) do
     local coc = lsp
     if lsp == "Information" then coc = "Info" end
-    M.link("LspDiagnosticsDefault" .. lsp, { "Coc" .. coc .. "Sign" }, "guifg=" .. config[lsp])
-    M.link("LspDiagnosticsVirtualText" .. lsp, { "LspDiagnosticsDefault" .. lsp })
+    M.link("Diagnostic" .. lsp, { "Coc" .. coc .. "Sign" }, "guifg=" .. config[lsp])
+    M.link("DiagnosticVirtualText" .. lsp, { "Diagnostic" .. lsp })
 
     local color = defaults[lsp]
-    local hl = M.hl("LspDiagnosticsDefault" .. lsp)
+    local hl = M.hl("Diagnostic" .. lsp)
     if hl and hl.foreground then color = string.format("#%06x", hl.foreground) end
-    M.link("LspDiagnosticsUnderline" .. lsp, {}, "gui=undercurl guisp=" .. color)
+    M.link("DiagnosticUnderline" .. lsp, {}, "gui=undercurl guisp=" .. color)
   end
 
   M.link("LspReferenceText", { "CocHighlightText", "CursorLine" })
